@@ -1,0 +1,173 @@
+body {
+    background-color: #faf9f6; /* Màu trắng kem tôn da váy */
+    font-family: 'Montserrat', sans-serif;
+}
+h1, h2, .navbar-brand, .luxury-title {
+    font-family: 'Playfair Display', serif; /* Font chữ Hoàng gia */
+}
+
+/* Thanh menu dải màu Vàng Gold sang trọng */
+.navbar {
+    background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #d4af37 100%) !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+.navbar-brand, #user-info {
+    color: #4a3b00 !important; /* Chữ màu nâu trầm */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Hiệu ứng Thẻ sản phẩm */
+.luxury-card {
+    border: none;
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+.luxury-card:hover {
+    transform: translateY(-10px); /* Lướt chuột váy sẽ bay lên nhẹ */
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.25);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+}
+
+/* Khung chứa ảnh váy */
+.img-container {
+    height: 480px;
+    background-color: #fcfcfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 2px solid #f9f5eb;
+    overflow: hidden;
+}
+.img-container img {
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.6s ease;
+}
+.luxury-card:hover .img-container img {
+    transform: scale(1.04); /* Lướt chuột ảnh váy sẽ zoom nhẹ lên */
+}
+
+/* Tên váy & Giá tiền */
+.luxury-title {
+    color: #b8860b; 
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+.luxury-price {
+    color: #d4af37;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+/* Nút Thuê Ngay Dát Vàng */
+.btn-luxury {
+    background: linear-gradient(45deg, #d4af37, #f3e5ab);
+    color: #4a3b00 !important;
+    border: none;
+    border-radius: 30px; /* Nút bo tròn điệu đà */
+    padding: 12px 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+}
+.btn-luxury:hover {
+    background: linear-gradient(45deg, #f3e5ab, #d4af37);
+    transform: scale(1.03);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.6);
+}
+
+/* --- LÀM ĐẸP MODAL (BẢNG THÔNG BÁO) --- */
+.modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+}
+.modal-header {
+    border-bottom: 2px solid #f9ea8f;
+    background-color: #faf9f6;
+    border-radius: 15px 15px 0 0;
+}
+.modal-title {
+    font-family: 'Playfair Display', serif;
+    color: #b8860b;
+    font-weight: 700;
+    font-size: 1.6rem;
+}
+.modal-body label {
+    font-weight: 600;
+    color: #4a3b00;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+/* Hiệu ứng viền vàng khi click vào ô nhập ngày/địa chỉ */
+.form-control:focus, .form-select:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+}
+/* Nút Hủy viền vàng */
+.btn-outline-luxury {
+    color: #b8860b;
+    border: 1.5px solid #d4af37;
+    background-color: transparent;
+    font-weight: 600;
+    border-radius: 30px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+.btn-outline-luxury:hover {
+    background-color: #fbf5d9;
+    color: #4a3b00;
+}
+
+/* --- Tùy chỉnh góc User góc phải thanh Navbar --- */
+.welcome-text {
+    font-family: 'Montserrat', sans-serif;
+    color: #4a3b00 !important; /* Màu nâu hoàng gia */
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    text-transform: capitalize; /* Viết hoa chữ cái đầu cho thanh lịch */
+    margin-right: 15px;
+}
+
+.btn-logout-luxury {
+    background-color: #4a3b00; /* Phủ nền nâu trầm để tạo tương phản */
+    color: #faf9f6 !important; /* Chữ màu kem sáng */
+    border: 2px solid #4a3b00;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(74, 59, 0, 0.2);
+}
+
+.btn-logout-luxury:hover {
+    background-color: #faf9f6;
+    color: #4a3b00 !important;
+    border: 2px solid #faf9f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 59, 0, 0.3);
+}
+
+/* --- CSS cho Menu chính giữa --- */
+.luxury-menu .nav-link {
+    font-family: 'Montserrat', sans-serif;
+    color: #4a3b00 !important; /* Đồng bộ màu nâu hoàng gia */
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    padding-bottom: 5px;
+}
+
