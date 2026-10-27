@@ -32,3 +32,12 @@ class OrderStatusUpdate(BaseModel):
         "RETURNED",
         "CANCELLED"
     ]
+
+# ==========================================
+# THÊM MỚI: Cấu trúc dữ liệu cho form Quyết toán
+# ==========================================
+class OrderCheckout(BaseModel):
+    return_condition: str
+    damage_fee: float
+    late_fee: float
+    note: str = ""

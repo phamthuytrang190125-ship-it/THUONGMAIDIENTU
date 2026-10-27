@@ -20,8 +20,17 @@ class DressCreate(BaseModel):
     image_url: Optional[str] = None
 
 
+# Đã bổ sung đầy đủ các trường để sửa toàn bộ thông tin váy
 class DressUpdate(BaseModel):
+    category_id: int
+    name: str
     description: str
+    size: str
+    quantity: int
+    rental_price: int
+    deposit_price: int
+    status: str
+    image_url: Optional[str] = None
 
 
 # API lấy danh sách váy, tìm kiếm và lọc
@@ -116,6 +125,7 @@ def create_dress(
         cur.close()
         conn.close()
 
+
 # API xóa váy - chỉ ADMIN
 @router.delete("/api/dresses/{dress_id}")
 def delete_dress(
@@ -160,7 +170,7 @@ def delete_dress(
         conn.close()
 
 
-# API sửa mô tả váy - chỉ ADMIN
+# API sửa toàn bộ thông tin váy - chỉ ADMIN
 @router.put("/api/dresses/{dress_id}")
 def update_dress(
     dress_id: int,
@@ -174,11 +184,30 @@ def update_dress(
         cur.execute(
             """
             UPDATE Dresses
-            SET description = %s
+            SET category_id = %s,
+                name = %s,
+                description = %s,
+                size = %s,
+                quantity = %s,
+                rental_price = %s,
+                deposit_price = %s,
+                status = %s,
+                image_url = %s
             WHERE id = %s
             RETURNING id;
             """,
-            (dress.description, dress_id)
+            (
+                dress.category_id,
+                dress.name,
+                dress.description,
+                dress.size,
+                dress.quantity,
+                dress.rental_price,
+                dress.deposit_price,
+                dress.status,
+                dress.image_url,
+                dress_id
+            )
         )
 
         updated = cur.fetchone()
@@ -191,7 +220,7 @@ def update_dress(
 
         conn.commit()
 
-        return {"message": "Cập nhật mô tả thành công!"}
+        return {"message": "Cập nhật thông tin váy thành công!"}
 
     except HTTPException:
         conn.rollback()
@@ -199,6 +228,7 @@ def update_dress(
 
     except Exception as e:
         conn.rollback()
+        print("LOI CAP NHAT VAY:", repr(e))
         raise HTTPException(
             status_code=500,
             detail="Không thể cập nhật sản phẩm."

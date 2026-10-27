@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thuê Váy Cưới Cao Cấp</title>
@@ -15,11 +15,12 @@
 
     <!-- Thanh điều hướng -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+        <div class="container-fluid px-4"> <!-- Mở rộng không gian ra 2 biên -->
             <a class="navbar-brand" href="#">WeddingDress</a>
+            
             <!-- Khối Menu chính nằm giữa Navbar -->
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav luxury-menu gap-4">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav luxury-menu gap-4 mx-auto"> <!-- Dùng mx-auto để căn giữa -->
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Trang Chủ</a>
                     </li>
@@ -35,16 +36,26 @@
                 </ul>
             </div>
 
-            <!-- Khu vực nút chưa đăng nhập -->
-            <div id="auth-buttons">
-                <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
-                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button>
-            </div>
-            
-            <!-- Khu vực hiển thị khi đã đăng nhập -->
-            <div id="user-info" class="d-none align-items-center">
-                <span id="welcome-message" class="welcome-text"></span>
-                <button class="btn btn-logout-luxury" onclick="logout()">Đăng xuất</button>
+            <!-- Gom Auth và User vào chung để đẩy sát góc phải -->
+            <div class="d-flex align-items-center ms-auto">
+                <!-- Khu vực nút chưa đăng nhập -->
+                <div id="auth-buttons">
+                    <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
+                    <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button>
+                </div>
+                
+                <!-- Khu vực hiển thị khi đã đăng nhập -->
+                <div id="user-info" class="d-none d-flex align-items-center gap-3 flex-nowrap">
+                    <span id="welcome-message" class="welcome-text text-nowrap"></span>
+                    
+                    <!-- Sửa class nút ADMIN thành viền mảnh (btn-outline-light) -->
+                    <a href="admin.html" id="admin-btn" class="btn btn-outline-light d-none fw-bold text-nowrap">
+                        <i class="bi bi-shield-lock"></i> ADMIN
+                    </a>
+
+                    <!-- Sửa class nút ĐĂNG XUẤT thành viền mảnh (btn-outline-light) -->
+                    <button class="btn btn-outline-light text-nowrap" onclick="logout()">ĐĂNG XUẤT</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -53,13 +64,11 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4">Bộ Sưu Tập Váy Cưới</h2>
 
-        <!-- Bộ lọc và Tìm kiếm (ĐÃ ĐƯỢC CHUYỂN LÊN ĐÂY) -->
+        <!-- Bộ lọc và Tìm kiếm -->
         <div class="row g-3 justify-content-center mb-5">
-            <!-- Ô tìm kiếm -->
             <div class="col-md-5">
                 <input type="text" id="searchInput" class="form-control border-luxury" placeholder="🔍 Nhập tên váy cần tìm..." oninput="searchDresses()">
             </div>
-            <!-- Dropdown lọc danh mục -->
             <div class="col-md-3">
                 <select id="categoryFilter" class="form-select border-luxury" onchange="searchDresses()">
                     <option value="">Tất cả danh mục</option>
@@ -75,7 +84,7 @@
         </div>
     </div>
 
-<!-- 1. Modal Xem Chi Tiết Váy (Mới thêm) -->
+<!-- Modal Xem Chi Tiết Váy -->
 <div class="modal fade" id="dressDetailModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -88,15 +97,26 @@
                     <div class="col-md-6 text-center">
                         <img id="detailImage" src="" class="img-fluid rounded shadow-sm" alt="Dress" style="max-height: 400px; object-fit: cover;">
                     </div>
-                    <div class="col-md-6 mt-3 mt-md-0">
+                    <div class="col-md-6 mt-3 mt-md-0 d-flex flex-column">
                         <h4 style="color: #b8860b; font-weight: bold;" id="detailPrice"></h4>
                         <hr>
-                        <p><strong>👗 Size:</strong> <span id="detailSize"></span></p>
-                        <p><strong>💰 Giá cọc:</strong> <span id="detailDeposit"></span></p>
-                        <p><strong>✨ Tình trạng:</strong> <span class="badge bg-success">Có sẵn</span></p>
-                        <p><strong>📝 Mô tả:</strong> <span id="detailDescription"></span></p>
+                        <p class="mb-2"><strong>👗 Size:</strong> <span id="detailSize"></span></p>
+                        <p class="mb-2"><strong>💰 Giá cọc:</strong> <span id="detailDeposit"></span></p>
+                        <p class="mb-2"><strong>✨ Tình trạng:</strong> <span class="badge bg-success">Có sẵn</span></p>
+                        <p class="mb-3"><strong>📝 Mô tả:</strong> <span id="detailDescription"></span></p>
                         
-                        <button class="btn btn-luxury w-100 mt-4" onclick="rentFromDetail()">THUÊ VÁY NÀY NGAY</button>
+                        <!-- Bảng Quy định thuê & hoàn cọc -->
+                        <div class="p-3 mb-4 mt-auto rounded" style="background-color: #fff9e6; border-left: 4px solid #d4af37; font-size: 0.9em;">
+                            <strong style="color: #4a3b00;">⚠️ Quy định thuê & hoàn cọc:</strong>
+                            <ul class="mb-0 mt-2 ps-3 text-muted" style="line-height: 1.6;">
+                                <li><span class="text-success fw-bold">Hoàn 100% cọc</span> nếu trả váy đúng hạn và nguyên trạng.</li>
+                                <li><span class="text-danger fw-bold">Trả trễ hạn:</span> Phụ thu 10% giá thuê cho mỗi ngày trễ.</li>
+                                <li><span class="text-danger fw-bold">Hư hỏng nhẹ</span> (dơ bẩn gấu váy, rách chỉ nhỏ): Khấu trừ 20% - 50% tiền cọc làm phí giặt hấp, sửa chữa.</li>
+                                <li><span class="text-danger fw-bold">Hư hỏng nặng</span> (cháy xém, rách mảng lớn không thể phục hồi) hoặc làm mất váy: Khấu trừ 100% tiền cọc.</li>
+                            </ul>
+                        </div>
+                        
+                        <button class="btn btn-luxury w-100" onclick="rentFromDetail()">THUÊ VÁY NÀY NGAY</button>
                     </div>
                 </div>
             </div>
@@ -104,7 +124,7 @@
     </div>
 </div>
 
-   <!-- Khu vực Form Đặt Váy -->
+<!-- Khu vực Form Đặt Váy -->
 <div class="modal fade" id="orderModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -127,23 +147,35 @@
                         <label class="form-label">Địa chỉ giao hàng:</label>
                         <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ..." required>
                     </div>
+
+                    <!-- Bảng tính tiền minh bạch -->
+                    <div class="mb-3 p-3 rounded" style="background-color: #fcfbf9; border: 1px solid #e0d8c3;">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Giá thuê váy:</span>
+                            <strong id="orderRentalPrice" style="color: #4a3b00;">0 đ</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Tiền cọc <i style="font-size: 0.85em;">(Hoàn trả 100% khi trả váy nguyên vẹn)</i>:</span>
+                            <strong id="orderDepositPrice" style="color: #4a3b00;">0 đ</strong>
+                        </div>
+                        <hr style="border-color: #d4af37;">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold" style="color: #b8860b; font-size: 1.1em;">Tổng thanh toán:</span>
+                            <strong id="orderTotalPrice" class="text-danger fs-5">0 đ</strong>
+                        </div>
+                    </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Thanh toán:</label>
-                        <!-- Gắn thêm sự kiện onchange để tự động gọi hàm khi đổi phương thức -->
                         <select class="form-select" id="paymentMethod" onchange="toggleQRCode()">
                             <option value="COD">Thanh toán khi nhận hàng (COD)</option>
                             <option value="BANK_TRANSFER">Chuyển khoản ngân hàng</option>
                         </select>
                     </div>
 
-                    <!-- Khối mã QR (Mặc định ẩn với class d-none) -->
                     <div id="qrCodeContainer" class="d-none mt-3 p-3 text-center" style="background-color: #faf9f6; border: 1.5px dashed #d4af37; border-radius: 12px;">
                         <p class="mb-2" style="color: #b8860b; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem;">Quét mã QR để thanh toán</p>
-                        
-                        <!-- Link VietQR đã tích hợp số tài khoản VietinBank của bạn -->
-                        <img id="qrImage" src="https://img.vietqr.io/image/vietinbank-104879798041-compact2.png?amount=2000000&addInfo=Thue%20Vay%20Cuoi&accountName=PHAM%20THI%20THUY%20TRANG" alt="QR Code" style="width: 180px; height: 180px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        
+                        <img id="qrImage" src="" alt="QR Code" style="width: 180px; height: 180px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <p class="mt-2 mb-0 small text-muted">Nội dung chuyển khoản: <br><strong style="color: #4a3b00;">SĐT của bạn - Thue Vay Cuoi</strong></p>
                     </div>
                 </form>
@@ -156,85 +188,84 @@
     </div>
 </div>
 
-    <!-- Khu vực Form Đăng Nhập -->
-    <div class="modal fade" id="loginModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Đăng nhập</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="loginForm">
-                        <div class="mb-3">
-                            <label class="form-label">Email:</label>
-                            <input type="email" class="form-control" id="loginEmail" required>
+<!-- Khu vực Form Đăng Nhập -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng nhập</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="loginEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu:</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="loginPassword" required>
+                            <button class="btn btn-outline-secondary" type="button" id="toggleLoginPassword">
+                                <i class="bi bi-eye-slash" id="toggleLoginIcon"></i>
+                            </button>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mật khẩu:</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="loginPassword" required>
-                                <button class="btn btn-outline-secondary" type="button" id="toggleLoginPassword">
-                                    <i class="bi bi-eye-slash" id="toggleLoginIcon"></i>
-                                </button>
-                            </div>
-                            <!-- Dòng Quên mật khẩu -->
-                            <div class="text-end mt-1">
-                                <a href="#" class="text-decoration-none text-muted" style="font-size: 0.9em;" onclick="alert('Tính năng gửi email khôi phục mật khẩu sẽ được phát triển ở giai đoạn sau!')">Quên mật khẩu?</a>
-                            </div>
+                        <div class="text-end mt-1">
+                            <a href="#" class="text-decoration-none text-muted" style="font-size: 0.9em;" onclick="alert('Tính năng gửi email khôi phục mật khẩu sẽ được phát triển ở giai đoạn sau!')">Quên mật khẩu?</a>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-outline-luxury" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-luxury" onclick="submitLogin()">Đăng nhập</button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-luxury" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-luxury" onclick="submitLogin()">Đăng nhập</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Khu vực Form Đăng Ký -->
-    <div class="modal fade" id="registerModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Đăng ký tài khoản</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="registerForm">
-                        <div class="mb-3">
-                            <label class="form-label">Họ và tên:</label>
-                            <input type="text" class="form-control" id="regFullName" required>
+<!-- Khu vực Form Đăng Ký -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng ký tài khoản</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label class="form-label">Họ và tên:</label>
+                        <input type="text" class="form-control" id="regFullName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="regEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại:</label>
+                        <input type="text" class="form-control" id="regPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu:</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="regPassword" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                            </button>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email:</label>
-                            <input type="email" class="form-control" id="regEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Số điện thoại:</label>
-                            <input type="text" class="form-control" id="regPhone" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mật khẩu:</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="regPassword" required>
-                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                    <i class="bi bi-eye-slash" id="toggleIcon"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-outline-luxury" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-luxury" onclick="submitRegister()">Xác nhận Đăng ký</button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-luxury" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-luxury" onclick="submitRegister()">Xác nhận Đăng ký</button>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

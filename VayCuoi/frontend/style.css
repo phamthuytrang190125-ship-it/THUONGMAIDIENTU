@@ -171,3 +171,25 @@ h1, h2, .navbar-brand, .luxury-title {
     padding-bottom: 5px;
 }
 
+/* Nút Chi Tiết: Viền vàng, chữ vàng sậm */
+.btn-outline-luxury {
+    color: #b8860b !important;
+    border: 1.5px solid #d4af37 !important;
+    background-color: transparent !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-luxury:hover {
+    background-color: #d4af37 !important;
+    color: #fff !important;
+    border-color: #d4af37 !important;
+}
+
+/* --- KHÓA RỚT DÒNG CHO TOÀN BỘ THANH MENU --- */
+.navbar-nav .nav-item, 
+.navbar-nav .nav-link,
+#user-info,
+#user-info * {
+    white-space: nowrap !important;
+}

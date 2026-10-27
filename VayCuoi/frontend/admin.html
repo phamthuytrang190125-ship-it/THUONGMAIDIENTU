@@ -5,50 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quản trị | Váy Cưới</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-
-    :root { --ink:#342b23; --ink-soft:#75685a; --gold:#9a7837; --gold-dark:#765a27; --gold-pale:#f3ead8; --cream:#faf7f0; --paper:#fffdf9; --line:#e8dfcf; --shadow:0 12px 34px rgba(69,48,15,.06); }
-    * { box-sizing:border-box; }
-    body { margin:0; background:var(--cream); color:var(--ink); font-family:"Segoe UI",Arial,sans-serif; font-size:14px; }
-    .topbar { min-height:72px; background:rgba(255,253,249,.97); border-bottom:1px solid var(--line); box-shadow:0 3px 16px rgba(69,48,15,.035); position:sticky; top:0; z-index:100; }
-    .brand { font-family:Georgia,"Times New Roman",serif; letter-spacing:.035em; color:var(--gold-dark); font-size:1.45rem; font-weight:700; }
-    .layout { min-height:calc(100vh - 72px); }
-    .layout > .row { min-height:calc(100vh - 72px); }
-    .sidebar { background:#fffdf9; border-right:1px solid var(--line); padding:28px 16px; }
-    .nav-admin .nav-link { width:100%; text-align:left; color:var(--ink-soft); border:1px solid transparent; border-radius:12px; padding:13px 14px; margin-bottom:8px; font-weight:600; }
-    .nav-admin .nav-link::before { content:"◇"; color:var(--gold); margin-right:10px; }
-    .nav-admin .nav-link.active,.nav-admin .nav-link:hover { color:var(--gold-dark); background:var(--gold-pale); border-color:#e8d8b6; }
-    .content-wrap { min-width:0; padding:34px clamp(16px,3vw,42px); }
-    .page-title { font-family:Georgia,"Times New Roman",serif; font-weight:600; letter-spacing:-.02em; }
-    .muted,.section-note { color:#817567; }
-    .section-note { font-size:.82rem; line-height:1.55; margin-top:14px; }
-    .panel { min-width:0; background:var(--paper); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); }
-    .stat { padding:20px 22px; height:100%; position:relative; overflow:hidden; }
-    .stat::after { content:""; position:absolute; right:-18px; top:-24px; width:82px; height:82px; border:1px solid #eadfc9; border-radius:50%; background:rgba(243,234,216,.35); }
-    .stat-label { color:var(--ink-soft); font-size:.82rem; font-weight:600; position:relative; z-index:1; }
-    .stat-value { color:var(--gold-dark); font-family:Georgia,serif; font-size:1.9rem; font-weight:700; margin-top:8px; position:relative; z-index:1; }
-    .btn { border-radius:9px; font-weight:600; }
-    .btn-gold { background:var(--gold); color:#fffdf8; border:1px solid var(--gold); }
-    .btn-gold:hover,.btn-gold:focus { background:var(--gold-dark); color:#fff; border-color:var(--gold-dark); }
-    .btn-outline-secondary { color:#675b4c; border-color:#d9cebc; }
-    .btn-outline-secondary:hover { color:var(--ink); background:var(--gold-pale); border-color:#d6c29d; }
-    .form-control,.form-select { border-color:#ded4c4; border-radius:9px; min-height:39px; }
-    .form-control:focus,.form-select:focus { border-color:#b99a5b; box-shadow:0 0 0 .2rem rgba(154,120,55,.14); }
-    .form-label { color:#594b3b; font-weight:600; font-size:.88rem; }
-    .table-responsive { width:100%; overflow-x:auto; border-radius:10px; }
-    .table { --bs-table-bg:transparent; --bs-table-hover-bg:#fcf7ed; vertical-align:middle; margin-bottom:0; }
-    .table thead th { color:#786b58; background:#f8f2e7; font-size:.76rem; font-weight:700; letter-spacing:.035em; text-transform:uppercase; white-space:nowrap; border-bottom:1px solid var(--line); padding:14px 13px; }
-    .table tbody td { border-bottom-color:#f0e9de; padding:13px; white-space:nowrap; }
-    .table tbody tr:last-child td { border-bottom:0; }
-    #orders-table { min-width:1060px; }
-    #dresses-table { min-width:1100px; }
-    .status-badge { display:inline-flex; align-items:center; border-radius:999px; padding:6px 10px; background:var(--gold-pale); color:var(--gold-dark); font-size:.75rem; font-weight:700; letter-spacing:.015em; }
-    .modal-content { border:1px solid var(--line); border-radius:16px; box-shadow:0 18px 50px rgba(40,28,8,.15); }
-    .modal-header,.modal-footer { border-color:var(--line); background:#fffdf9; }
-    .alert { border-radius:12px; }
-    @media (max-width:767.98px) { .topbar { position:static; } .sidebar { border-right:0; border-bottom:1px solid var(--line); padding:14px; } .sidebar .nav-admin { display:grid; grid-template-columns:1fr 1fr; gap:8px; } .nav-admin .nav-link { margin:0; padding:11px 10px; font-size:.85rem; } .content-wrap { padding:22px 12px; } .stat { padding:16px; } .stat-value { font-size:1.6rem; } }
-
-  </style>
+  <link rel="stylesheet" href="admin.css">
 </head>
 <body>
   <header class="topbar py-3 px-3 px-md-4 d-flex justify-content-between align-items-center">
@@ -150,269 +107,85 @@
     </div></div>
   </div>
 
-  <!-- Modal sửa mô tả -->
+  <!-- Modal sửa đầy đủ thông tin váy -->
   <div class="modal fade" id="dressEditModal" tabindex="-1" aria-labelledby="dressEditTitle" aria-hidden="true">
-    <div class="modal-dialog"><div class="modal-content">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content">
       <form id="dress-edit-form">
-        <div class="modal-header"><h2 class="modal-title fs-5" id="dressEditTitle">Sửa mô tả váy</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button></div>
-        <div class="modal-body"><input type="hidden" id="edit-dress-id"><label class="form-label" for="edit-description">Mô tả mới</label><textarea class="form-control" id="edit-description" rows="4" required></textarea></div>
+        <div class="modal-header"><h2 class="modal-title fs-5" id="dressEditTitle">Sửa chi tiết váy</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button></div>
+        <div class="modal-body">
+          <input type="hidden" id="edit-dress-id">
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label" for="edit-category">ID danh mục *</label><input class="form-control" type="number" min="1" id="edit-category" required></div>
+            <div class="col-md-6"><label class="form-label" for="edit-name">Tên váy *</label><input class="form-control" id="edit-name" required maxlength="200"></div>
+            <div class="col-md-4"><label class="form-label" for="edit-size">Size *</label><input class="form-control" id="edit-size" required placeholder="S, M, L..."></div>
+            <div class="col-md-4"><label class="form-label" for="edit-quantity">Số lượng *</label><input class="form-control" type="number" min="0" id="edit-quantity" required></div>
+            <div class="col-md-4"><label class="form-label" for="edit-status">Trạng thái *</label><select class="form-select" id="edit-status" required><option value="AVAILABLE">AVAILABLE</option><option value="UNAVAILABLE">UNAVAILABLE</option></select></div>
+            <div class="col-md-6"><label class="form-label" for="edit-price">Giá thuê (VND) *</label><input class="form-control" type="number" min="0" id="edit-price" required></div>
+            <div class="col-md-6"><label class="form-label" for="edit-deposit">Tiền cọc (VND) *</label><input class="form-control" type="number" min="0" id="edit-deposit" required></div>
+            <div class="col-12"><label class="form-label" for="edit-description">Mô tả mới</label><textarea class="form-control" id="edit-description" rows="4" required></textarea></div>
+            <div class="col-12"><label class="form-label" for="edit-image">Đường dẫn ảnh</label><input class="form-control" id="edit-image" placeholder="images/vay-cuoi.png"></div>
+          </div>
+        </div>
         <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button><button type="submit" class="btn btn-gold">Cập nhật</button></div>
       </form>
     </div></div>
   </div>
 
+<!-- MODAL QUYẾT TOÁN & HOÀN CỌC -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Kiểm tra & Hoàn cọc đơn hàng</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="checkout-form">
+        <div class="modal-body">
+          <input type="hidden" id="checkout-order-id">
+          
+          <div class="alert alert-warning">
+            Tiền cọc của khách: <strong id="checkout-deposit" class="text-danger">0 đ</strong>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Tình trạng váy khi nhận lại <span class="text-danger">*</span></label>
+            <select class="form-select" id="checkout-condition" required>
+              <option value="Nguyên vẹn">Nguyên vẹn (Hoàn 100% cọc)</option>
+              <!-- Cập nhật theo đúng chính sách khấu trừ 20-50% -->
+              <option value="Hư hỏng nhẹ">Hư hỏng nhẹ (Trừ 20% - 50% cọc)</option>
+              <!-- Cập nhật theo đúng chính sách khấu trừ 100% -->
+              <option value="Hư hỏng nặng">Hư hỏng nặng / Mất váy (Trừ 100% cọc)</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Phạt hư hỏng (VNĐ)</label>
+            <input type="number" class="form-control" id="checkout-damage" value="0" min="0">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Phạt trả trễ (VNĐ)</label>
+            <input type="number" class="form-control" id="checkout-late" value="0" min="0">
+            <!-- Thêm câu nhắc nhở quy định 10% giá thuê -->
+            <small class="text-danger fst-italic">* Nhắc nhở: Phụ thu 10% giá THUÊ cho mỗi ngày trễ.</small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Ghi chú / Lý do phạt</label>
+            <textarea class="form-control" id="checkout-note" rows="2" placeholder="Ví dụ: Rách lai váy, trễ 2 ngày..."></textarea>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger">Xác nhận Hoàn Cọc</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const API_BASE = 'http://127.0.0.1:8000/api';
-    const token = localStorage.getItem('access_token');
-    let jwtPayload = null;
-    let ordersCache = [];
-    let dressesCache = [];
-
-    function decodeJwt(tokenValue) {
-      try {
-        const part = tokenValue.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-        const padded = part + '='.repeat((4 - part.length % 4) % 4);
-        return JSON.parse(decodeURIComponent(Array.from(atob(padded), c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join('')));
-      } catch (_) { return null; }
-    }
-
-    function guardAdmin() {
-      if (!token) {
-        alert('Bà vui lòng đăng nhập tài khoản ADMIN trước nha.');
-        window.location.replace('index.html');
-        return false;
-      }
-      jwtPayload = decodeJwt(token);
-      if (!jwtPayload || !jwtPayload.user_id || !jwtPayload.role || (jwtPayload.exp && jwtPayload.exp * 1000 <= Date.now())) {
-        alert('Token không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại.');
-        window.location.replace('index.html');
-        return false;
-      }
-      if (jwtPayload.role !== 'ADMIN') {
-        alert('Tài khoản của bà không có quyền truy cập trang quản trị.');
-        window.location.replace('index.html');
-        return false;
-      }
-      document.getElementById('admin-name').textContent = localStorage.getItem('userName') || 'Quản trị viên';
-      return true;
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-    }
-    function money(value) {
-      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(Number(value || 0));
-    }
-    function showAlert(message, type = 'success') {
-      const box = document.getElementById('page-alert');
-      box.className = `alert alert-${type}`;
-      box.textContent = message;
-      box.classList.remove('d-none');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  async function apiFetch(path, options = {}) {
-      const headers = {
-          ...(options.headers || {}),
-          Authorization: `Bearer ${token}`
-      };
-
-      if (options.body && !headers['Content-Type']) {
-          headers['Content-Type'] = 'application/json';
-      }
-
-      const response = await fetch(
-          `${API_BASE}${path}`,
-          {
-              ...options,
-              headers: headers
-          }
-      );
-
-      const text = await response.text();
-      let data = null;
-
-      try {
-          data = text ? JSON.parse(text) : null;
-      } catch (error) {
-          data = { detail: text };
-      }
-
-      if (response.status === 401 || response.status === 403) {
-          throw new Error(
-              response.status === 401
-                  ? 'Token hết hạn hoặc chưa được xác thực (401).'
-                  : 'Tài khoản không có quyền ADMIN (403).'
-          );
-      }
-
-      if (!response.ok) {
-          throw new Error(
-              data?.detail ||
-              data?.error ||
-              data?.message ||
-              `API lỗi ${response.status}`
-          );
-      }
-
-      return data;
-  }
-
-    function showView(view) {
-      document.getElementById('orders-view').classList.toggle('d-none', view !== 'orders');
-      document.getElementById('dresses-view').classList.toggle('d-none', view !== 'dresses');
-      document.querySelectorAll('[data-view]').forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
-      if (view === 'orders') loadOrders(); else loadDresses();
-    }
-
-    async function loadOrders() {
-      const body = document.getElementById('orders-body');
-      body.innerHTML = '<tr><td colspan="8" class="text-center muted py-4">Đang tải dữ liệu...</td></tr>';
-      try {
-        const data = await apiFetch('/orders');
-        if (!Array.isArray(data)) throw new Error(data?.error || 'Dữ liệu đơn hàng trả về không đúng định dạng.');
-        ordersCache = data;
-        document.getElementById('stat-total').textContent = data.length;
-        document.getElementById('stat-pending').textContent = data.filter(o => o.status === 'RENTING').length;
-        document.getElementById('stat-confirmed').textContent = data.filter(o => o.status === 'CONFIRMED').length;
-        renderOrders();
-      } catch (error) {
-        body.innerHTML = `<tr><td colspan="8" class="text-center text-danger py-4">${escapeHtml(error.message)}</td></tr>`;
-      }
-    }
-
-    function renderOrders() {
-      const query = document.getElementById('order-search').value.trim().toLowerCase();
-      const rows = ordersCache.filter(o => String(o.order_code || '').toLowerCase().includes(query) || String(o.full_name || '').toLowerCase().includes(query));
-      const body = document.getElementById('orders-body');
-      if (!rows.length) { body.innerHTML = '<tr><td colspan="8" class="text-center muted py-4">Không có đơn hàng phù hợp.</td></tr>'; return; }
-      const validStatuses = [
-    'PENDING',
-    'COMPLETED',
-    'CONFIRMED',
-    'RENTING',
-    'RETURNED',
-    'CANCELLED'
-    ];
-      body.innerHTML = rows.map(order => {
-        const currentStatus = validStatuses.includes(order.status) ? order.status : 'CONFIRMED';
-        return `<tr>
-          <td>${escapeHtml(order.id)}</td>
-          <td><strong>${escapeHtml(order.order_code || '—')}</strong></td>
-          <td>${escapeHtml(order.full_name || '—')}</td>
-          <td>${escapeHtml(order.phone || '—')}</td>
-          <td>${money(order.total_amount)}</td>
-          <td>${money(order.deposit_amount)}</td>
-          <td><span class="status-badge">${escapeHtml(order.status || 'UNKNOWN')}</span></td>
-          <td><div class="d-flex gap-2 align-items-center"><select class="form-select form-select-sm" style="min-width:140px" id="status-${Number(order.id)}" aria-label="Trạng thái đơn ${Number(order.id)}">${validStatuses.map(s => `<option value="${s}" ${s === currentStatus ? 'selected' : ''}>${s}</option>`).join('')}</select><button class="btn btn-sm btn-gold" type="button" onclick="updateOrderStatus(${Number(order.id)})">Lưu</button></div></td>
-        </tr>`;
-      }).join('');
-    }
-
-    async function updateOrderStatus(orderId) {
-      const select = document.getElementById(`status-${orderId}`);
-      if (!select) return;
-      const status = select.value;
-      if (!confirm(`Xác nhận cập nhật đơn #${orderId} sang trạng thái ${status}?`)) return;
-      try {
-        const result = await apiFetch(`/orders/${orderId}/status`, { method: 'PUT', body: JSON.stringify({ status }) });
-        showAlert(result?.message || 'Cập nhật trạng thái đơn hàng thành công.');
-        await loadOrders();
-      } catch (error) { showAlert(error.message, 'danger'); }
-    }
-
-    async function loadDresses() {
-      const body = document.getElementById('dresses-body');
-      body.innerHTML = '<tr><td colspan="9" class="text-center muted py-4">Đang tải dữ liệu...</td></tr>';
-      try {
-        const data = await apiFetch('/dresses');
-        if (!Array.isArray(data)) throw new Error(data?.error || 'Dữ liệu váy trả về không đúng định dạng.');
-        dressesCache = data;
-        renderDresses();
-      } catch (error) {
-        body.innerHTML = `<tr><td colspan="9" class="text-center text-danger py-4">${escapeHtml(error.message)}</td></tr>`;
-      }
-    }
-
-    function renderDresses() {
-      const query = document.getElementById('dress-search').value.trim().toLowerCase();
-      const rows = dressesCache.filter(d => String(d.name || '').toLowerCase().includes(query));
-      const body = document.getElementById('dresses-body');
-      if (!rows.length) { body.innerHTML = '<tr><td colspan="9" class="text-center muted py-4">Không có váy phù hợp.</td></tr>'; return; }
-      body.innerHTML = rows.map(d => `<tr>
-        <td>${escapeHtml(d.id)}</td><td><strong>${escapeHtml(d.name)}</strong><div class="small muted text-truncate" style="max-width:240px">${escapeHtml(d.description || '')}</div></td>
-        <td>${escapeHtml(d.category_id ?? '—')}</td><td>${escapeHtml(d.size || '—')}</td><td>${escapeHtml(d.quantity ?? '—')}</td>
-        <td>${money(d.rental_price)}</td><td>${money(d.deposit_price)}</td><td><span class="status-badge">${escapeHtml(d.status || '—')}</span></td>
-        <td><div class="d-flex gap-2"><button class="btn btn-sm btn-outline-primary" type="button" onclick="openEditDress(${Number(d.id)})">Sửa mô tả</button><button class="btn btn-sm btn-outline-danger" type="button" onclick="deleteDress(${Number(d.id)})">Xóa</button></div></td>
-      </tr>`).join('');
-    }
-
-    async function createDress(event) {
-      event.preventDefault();
-      const dress = {
-        category_id: Number(document.getElementById('new-category').value),
-        name: document.getElementById('new-name').value.trim(),
-        description: document.getElementById('new-description').value.trim(),
-        size: document.getElementById('new-size').value.trim(),
-        quantity: Number(document.getElementById('new-quantity').value),
-        rental_price: Number(document.getElementById('new-price').value),
-        deposit_price: Number(document.getElementById('new-deposit').value),
-        status: document.getElementById('new-status').value,
-        image_url: document.getElementById('new-image').value.trim() || null
-      };
-      try {
-        const result = await apiFetch('/dresses', { method: 'POST', body: JSON.stringify(dress) });
-        bootstrap.Modal.getOrCreateInstance(document.getElementById('dressCreateModal')).hide();
-        document.getElementById('dress-create-form').reset();
-        showAlert(`${result?.message || 'Thêm váy thành công.'} ID: ${result?.dress_id ?? '—'}`);
-        await loadDresses();
-      } catch (error) { showAlert(error.message, 'danger'); }
-    }
-
-    function openEditDress(id) {
-      const dress = dressesCache.find(d => Number(d.id) === Number(id));
-      if (!dress) return;
-      document.getElementById('edit-dress-id').value = dress.id;
-      document.getElementById('edit-description').value = dress.description || '';
-      bootstrap.Modal.getOrCreateInstance(document.getElementById('dressEditModal')).show();
-    }
-
-    async function editDress(event) {
-      event.preventDefault();
-      const id = Number(document.getElementById('edit-dress-id').value);
-      const description = document.getElementById('edit-description').value.trim();
-      try {
-        const result = await apiFetch(`/dresses/${id}`, { method: 'PUT', body: JSON.stringify({ description }) });
-        bootstrap.Modal.getOrCreateInstance(document.getElementById('dressEditModal')).hide();
-        showAlert(result?.message || 'Cập nhật mô tả thành công.');
-        await loadDresses();
-      } catch (error) { showAlert(error.message, 'danger'); }
-    }
-
-    async function deleteDress(id) {
-      const dress = dressesCache.find(d => Number(d.id) === Number(id));
-      if (!confirm(`Bà chắc chắn muốn xóa váy “${dress?.name || id}” (ID ${id})? Thao tác này không thể tự hoàn tác.`)) return;
-      try {
-        const result = await apiFetch(`/dresses/${id}`, { method: 'DELETE' });
-        showAlert(result?.message || 'Xóa váy thành công.');
-        await loadDresses();
-      } catch (error) { showAlert(error.message, 'danger'); }
-    }
-
-    document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => showView(button.dataset.view)));
-    document.getElementById('refresh-orders').addEventListener('click', loadOrders);
-    document.getElementById('refresh-dresses').addEventListener('click', loadDresses);
-    document.getElementById('order-search').addEventListener('input', renderOrders);
-    document.getElementById('dress-search').addEventListener('input', renderDresses);
-    document.getElementById('dress-create-form').addEventListener('submit', createDress);
-    document.getElementById('dress-edit-form').addEventListener('submit', editDress);
-    document.getElementById('add-dress-btn').addEventListener('click', () => bootstrap.Modal.getOrCreateInstance(document.getElementById('dressCreateModal')).show());
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      localStorage.clear();
-      window.location.replace('index.html');
-    });
-
-    if (guardAdmin()) loadOrders();
-  </script>
+  <script src="admin.js"></script>
 </body>
 </html>

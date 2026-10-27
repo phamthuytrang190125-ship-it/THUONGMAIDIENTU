@@ -1,0 +1,54 @@
+/* --- CSS CHO TRANG ĐƠN THUÊ CỦA TÔI --- */
+body {
+    background-color: #faf7f0 !important;
+    color: #342b23;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #d4af37 !important;
+}
+
+/* Tiêu đề trang */
+.page-title {
+    font-family: 'Playfair Display', serif;
+    color: #4a3b00;
+}
+
+/* Thẻ đơn hàng (Card) */
+.order-card {
+    background: #fffdf9;
+    border: 1px solid #e8dfcf !important;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(69, 48, 15, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+    box-shadow: 0 15px 35px rgba(69, 48, 15, 0.08);
+}
+
+/* Nhãn trạng thái */
+.badge-pending { background-color: #f3ead8; color: #765a27; }
+.badge-confirmed { background-color: #e2f0d9; color: #385723; }
+.badge-renting { background-color: #d9e1f2; color: #1f3864; }
+.badge-completed { background-color: #e7e6e6; color: #3b3838; }
+.badge-cancelled { background-color: #f8cecc; color: #c00000; }
+
+/* Nút bấm */
+.btn-outline-secondary {
+    color: #675b4c;
+    border-color: #d9cebc;
+    border-radius: 9px;
+    font-weight: 600;
+}
+
+.btn-outline-secondary:hover {
+    color: #342b23;
+    background-color: #f3ead8;
+    border-color: #d6c29d;
+}

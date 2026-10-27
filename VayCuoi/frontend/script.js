@@ -8,10 +8,23 @@ function checkLoginStatus() {
     const userName = localStorage.getItem('userName');
 
     if (userId) {
+        // Hiện khu vực user, ẩn khu vực chưa đăng nhập
         document.getElementById('auth-buttons').classList.add('d-none');
         document.getElementById('user-info').classList.remove('d-none');
         document.getElementById('welcome-message').innerText = 'Xin chào, ' + (userName || 'Khách hàng');
+
+        // Logic kiểm tra Admin: Hiện nút "Quản Trị Hệ Thống" nếu tên là Quản Trị Viên
+        const adminBtn = document.getElementById('admin-btn');
+        if (adminBtn) {
+            // Kiểm tra tên hiển thị (như trong hình) hoặc thêm token role nếu có
+            if (userName === 'Quản Trị Viên' || userName.toLowerCase().includes('admin')) {
+                adminBtn.classList.remove('d-none');
+            } else {
+                adminBtn.classList.add('d-none');
+            }
+        }
     } else {
+        // Trạng thái chưa đăng nhập
         document.getElementById('auth-buttons').classList.remove('d-none');
         document.getElementById('user-info').classList.add('d-none');
     }
@@ -23,7 +36,6 @@ function parseJwt(token) {
 
 // 1. HÀM LẤY DỮ LIỆU TỪ API (CÓ TÌM KIẾM & LỌC)
 async function fetchDresses() {
-    // Nếu có ô tìm kiếm thì lấy giá trị, không thì để trống
     const searchInput = document.getElementById('searchInput');
     const categoryFilter = document.getElementById('categoryFilter');
     
@@ -38,20 +50,19 @@ async function fetchDresses() {
         const response = await fetch(url);
         const dresses = await response.json();
         allDresses = dresses; 
-        renderDresses(dresses); // Chuyển dữ liệu qua hàm vẽ HTML
+        renderDresses(dresses);
     } catch (error) {
         console.error("Lỗi lấy danh sách váy:", error);
     }
 }
 
-// Hàm gọi khi gõ ô tìm kiếm hoặc chọn danh mục
 function searchDresses() {
     fetchDresses();
 }
 
 // 2. HÀM VẼ GIAO DIỆN DANH SÁCH VÁY
 function renderDresses(dresses) {
-    const dressListContainer = document.getElementById('dress-list'); // Đảm bảo id này khớp với div trong HTML của bạn
+    const dressListContainer = document.getElementById('dress-list'); 
     if (!dressListContainer) return;
     
     dressListContainer.innerHTML = ''; 
@@ -69,14 +80,12 @@ function renderDresses(dresses) {
         const price = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(dress.rental_price);
         const imageUrl = localImages[index % localImages.length];
         
-        // Lưu lại url hình ảnh vào object để lát đưa qua modal chi tiết
         dress.display_image = imageUrl;
 
         const dressCard =`
             <div class="col-md-4 mb-5">
                 <div class="card h-100 luxury-card">
                     <div class="img-container">
-                        <!-- Đã gắn sự kiện mở chi tiết và đổi con trỏ chuột -->
                         <img src="${imageUrl}" class="mw-100" alt="${dress.name}" onclick="viewDressDetail(${dress.id})" style="cursor: pointer;">
                     </div>
                     
@@ -89,7 +98,11 @@ function renderDresses(dresses) {
                             <span class="luxury-price">${price}</span>
                         </div>
                         
-                        <button class="btn btn-luxury w-100 mt-auto" onclick="bookDress(${dress.id})">Thuê Ngay</button>
+                        <!-- Đã chia thành 2 nút: Chi Tiết và Thuê Ngay -->
+                        <div class="d-flex gap-2 mt-auto">
+                            <button class="btn btn-outline-luxury w-50" onclick="viewDressDetail(${dress.id})">Chi Tiết</button>
+                            <button class="btn btn-luxury w-50" onclick="bookDress(${dress.id})">Thuê Ngay</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,22 +129,40 @@ function viewDressDetail(dressId) {
 }
 
 function rentFromDetail() {
-    // Ẩn modal chi tiết
     const detailModalEl = document.getElementById('dressDetailModal');
     const detailModal = bootstrap.Modal.getInstance(detailModalEl);
     if(detailModal) detailModal.hide();
     
-    // Mở luồng thuê váy
     bookDress(currentDressId); 
 }
 
-// 4. LUỒNG THUÊ VÁY (ĐƠN HÀNG)
+// 4. LUỒNG THUÊ VÁY (ĐƠN HÀNG) & CẬP NHẬT QR CODE
 function bookDress(dressId) {
     if (!localStorage.getItem('user_id')) {
         alert("Vui lòng đăng nhập trước khi thuê váy!");
         new bootstrap.Modal(document.getElementById('loginModal')).show();
         return;
     }
+
+    const dress = allDresses.find(d => d.id === dressId);
+    if (dress) {
+        // Tính toán tổng tiền
+        const rental = dress.rental_price;
+        const deposit = dress.deposit_price;
+        const total = rental + deposit;
+
+        // In số tiền ra Form HTML
+        document.getElementById('orderRentalPrice').innerText = rental.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('orderDepositPrice').innerText = deposit.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('orderTotalPrice').innerText = total.toLocaleString('vi-VN') + ' đ';
+
+        // Ép Tổng tiền (total) vào mã quét QR VietQR
+        const qrImageEl = document.getElementById('qrImage');
+        if (qrImageEl) {
+            qrImageEl.src = `https://img.vietqr.io/image/vietinbank-104879798041-compact2.png?amount=${total}&addInfo=Thue%20Vay%20Cuoi&accountName=PHAM%20THI%20THUY%20TRANG`;
+        }
+    }
+
     document.getElementById('dressId').value = dressId;
     currentModal = new bootstrap.Modal(document.getElementById('orderModal'));
     currentModal.show();
@@ -149,6 +180,9 @@ function toggleQRCode() {
 }
 
 async function submitOrder() {
+    // 1. Lấy token từ localStorage
+    const token = localStorage.getItem('access_token');
+    
     const orderData = {
         user_id: parseInt(localStorage.getItem('user_id')),
         dress_id: parseInt(document.getElementById('dressId').value),
@@ -161,19 +195,29 @@ async function submitOrder() {
     try {
         const response = await fetch(`${API_BASE}/orders`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // 2. Bổ sung header xác thực vào đây
+            },
             body: JSON.stringify(orderData)
         });
+        
         const result = await response.json();
+        
         if (response.ok) {
             alert('Thành công! Mã đơn hàng: ' + result.order_code);
             currentModal.hide(); 
             document.getElementById('orderForm').reset();
-            toggleQRCode(); // Reset ẩn mã QR
+            toggleQRCode(); 
+            
+            // Chuyển hướng khách sang trang Đơn Thuê Của Tôi để xem lịch sử
+            window.location.href = "my-orders.html";
         } else {
             alert('Lỗi: ' + result.detail);
         }
-    } catch (error) { alert('Lỗi kết nối Backend!'); }
+    } catch (error) { 
+        alert('Lỗi kết nối Backend!'); 
+    }
 }
 
 // 5. CÁC LUỒNG XÁC THỰC (AUTH)
@@ -231,7 +275,6 @@ function logout() {
     checkLoginStatus();
 }
 
-// Xử lý bật/tắt hiển thị mật khẩu
 document.getElementById('togglePassword')?.addEventListener('click', function () {
     const input = document.getElementById('regPassword');
     const icon = document.getElementById('toggleIcon');
@@ -246,6 +289,6 @@ document.getElementById('toggleLoginPassword')?.addEventListener('click', functi
     else { input.type = 'password'; icon.classList.replace('bi-eye', 'bi-eye-slash'); }
 });
 
-// 6. KHỞI TẠO DỮ LIỆU KHI VÀO TRANG (Đổi thành fetchDresses)
+// 6. KHỞI TẠO DỮ LIỆU KHI VÀO TRANG
 checkLoginStatus();
 fetchDresses();

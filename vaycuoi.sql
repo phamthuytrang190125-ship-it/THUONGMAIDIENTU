@@ -54,6 +54,20 @@ CREATE TABLE RentalOrderItems (
     deposit_price NUMERIC(12, 2) NOT NULL
 );
 
+ALTER TABLE RentalOrders
+ADD COLUMN return_condition VARCHAR(255),
+ADD COLUMN damage_fee NUMERIC(12, 2) DEFAULT 0,
+ADD COLUMN late_fee NUMERIC(12, 2) DEFAULT 0;
+
+CREATE TABLE OrderLogs (
+    id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES RentalOrders(id) ON DELETE CASCADE,
+    old_status VARCHAR(50),
+    new_status VARCHAR(50) NOT NULL,
+    note TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- 6. TẠO BẢNG PAYMENTS (Thanh toán)
 CREATE TABLE Payments (
     id SERIAL PRIMARY KEY,
@@ -63,6 +77,28 @@ CREATE TABLE Payments (
     paid_at TIMESTAMP
 );
 
+--7. transaction (lịch sửs)
+CREATE TABLE Transactions (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER REFERENCES rentalorders(id) ON DELETE CASCADE,
+    amount DECIMAL(12,2) NOT NULL,
+    transaction_type VARCHAR(50) NOT NULL,
+    note TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS Transactions; -- Xóa bảng cũ nếu bị lỗi cấu trúc
+CREATE TABLE Transactions (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER REFERENCES RentalOrders(id) ON DELETE CASCADE,
+    amount DECIMAL(12,2) NOT NULL,
+    transaction_type VARCHAR(50) NOT NULL,
+    note TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+SELECT * FROM Payments ORDER BY id DESC;
+SELECT * FROM Transactions;
 ---------------------------------------------------------
 -- CHÈN DỮ LIỆU MẪU (SEED DATA)
 ---------------------------------------------------------
@@ -90,3 +126,30 @@ SELECT * FROM RentalOrders ORDER BY created_at DESC;
 
 -- Xem chi tiết phương thức thanh toán của đơn đó
 SELECT * FROM Payments ORDER BY id DESC;
+
+UPDATE Users
+SET password_hash = '$2b$12$n/Y0jUZrkkQzfbQED0dypODNkdp03eizTspJo/RGAK7eBdP0aT5nK',
+    role = 'ADMIN'
+WHERE email = 'admin@shop.com';
+-- mk admin ms : AdminVayCuoi@2026
+-- Kiểm tra kết quả
+SELECT id, full_name, email, role
+FROM Users
+
+
+INSERT INTO Dresses (category_id, name, description, size, quantity, rental_price, deposit_price, status) 
+VALUES (1, 'Váy Công Chúa Bồng Bềnh Pha Lê', 'Thiết kế form lộng lẫy, đính pha lê thủ công', 'S', 1, 2500000, 5000000, 'AVAILABLE');
+
+--Kiểm tra bảng Lịch sử trạng thái (OrderLogs)
+SELECT * FROM OrderLogs 
+WHERE order_id = 11 
+ORDER BY created_at ASC;
+
+--Kiểm tra bảng Giao dịch tiền bạc (Transactions)
+SELECT * FROM Transactions 
+WHERE order_id = 11;
+
+--Kiểm tra bảng Đơn hàng chính (RentalOrders)
+SELECT id, status, return_condition, damage_fee, late_fee 
+FROM RentalOrders 
+WHERE id = 11;

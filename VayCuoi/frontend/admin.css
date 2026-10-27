@@ -1,0 +1,61 @@
+:root { 
+    --ink:#342b23; 
+    --ink-soft:#75685a; 
+    --gold:#9a7837; 
+    --gold-dark:#765a27; 
+    --gold-pale:#f3ead8; 
+    --cream:#faf7f0; 
+    --paper:#fffdf9; 
+    --line:#e8dfcf; 
+    --shadow:0 12px 34px rgba(69,48,15,.06); 
+}
+
+* { box-sizing:border-box; }
+body { margin:0; background:var(--cream); color:var(--ink); font-family:"Segoe UI",Arial,sans-serif; font-size:14px; }
+.topbar { min-height:72px; background:rgba(255,253,249,.97); border-bottom:1px solid var(--line); box-shadow:0 3px 16px rgba(69,48,15,.035); position:sticky; top:0; z-index:100; }
+.brand { font-family:Georgia,"Times New Roman",serif; letter-spacing:.035em; color:var(--gold-dark); font-size:1.45rem; font-weight:700; }
+.layout { min-height:calc(100vh - 72px); }
+.layout > .row { min-height:calc(100vh - 72px); }
+.sidebar { background:#fffdf9; border-right:1px solid var(--line); padding:28px 16px; }
+.nav-admin .nav-link { width:100%; text-align:left; color:var(--ink-soft); border:1px solid transparent; border-radius:12px; padding:13px 14px; margin-bottom:8px; font-weight:600; }
+.nav-admin .nav-link::before { content:"◇"; color:var(--gold); margin-right:10px; }
+.nav-admin .nav-link.active,.nav-admin .nav-link:hover { color:var(--gold-dark); background:var(--gold-pale); border-color:#e8d8b6; }
+.content-wrap { min-width:0; padding:34px clamp(16px,3vw,42px); }
+.page-title { font-family:Georgia,"Times New Roman",serif; font-weight:600; letter-spacing:-.02em; }
+.muted,.section-note { color:#817567; }
+.section-note { font-size:.82rem; line-height:1.55; margin-top:14px; }
+.panel { min-width:0; background:var(--paper); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); }
+.stat { padding:20px 22px; height:100%; position:relative; overflow:hidden; }
+.stat::after { content:""; position:absolute; right:-18px; top:-24px; width:82px; height:82px; border:1px solid #eadfc9; border-radius:50%; background:rgba(243,234,216,.35); }
+.stat-label { color:var(--ink-soft); font-size:.82rem; font-weight:600; position:relative; z-index:1; }
+.stat-value { color:var(--gold-dark); font-family:Georgia,serif; font-size:1.9rem; font-weight:700; margin-top:8px; position:relative; z-index:1; }
+.btn { border-radius:9px; font-weight:600; }
+.btn-gold { background:var(--gold); color:#fffdf8; border:1px solid var(--gold); }
+.btn-gold:hover,.btn-gold:focus { background:var(--gold-dark); color:#fff; border-color:var(--gold-dark); }
+.btn-outline-secondary { color:#675b4c; border-color:#d9cebc; }
+.btn-outline-secondary:hover { color:var(--ink); background:var(--gold-pale); border-color:#d6c29d; }
+.form-control,.form-select { border-color:#ded4c4; border-radius:9px; min-height:39px; }
+.form-control:focus,.form-select:focus { border-color:#b99a5b; box-shadow:0 0 0 .2rem rgba(154,120,55,.14); }
+.form-label { color:#594b3b; font-weight:600; font-size:.88rem; }
+.table-responsive { width:100%; overflow-x:auto; border-radius:10px; }
+.table { --bs-table-bg:transparent; --bs-table-hover-bg:#fcf7ed; vertical-align:middle; margin-bottom:0; }
+.table thead th { color:#786b58; background:#f8f2e7; font-size:.76rem; font-weight:700; letter-spacing:.035em; text-transform:uppercase; white-space:nowrap; border-bottom:1px solid var(--line); padding:14px 13px; }
+.table tbody td { border-bottom-color:#f0e9de; padding:13px; white-space:nowrap; }
+.table tbody tr:last-child td { border-bottom:0; }
+#orders-table { min-width:1060px; }
+#dresses-table { min-width:1100px; }
+.status-badge { display:inline-flex; align-items:center; border-radius:999px; padding:6px 10px; background:var(--gold-pale); color:var(--gold-dark); font-size:.75rem; font-weight:700; letter-spacing:.015em; }
+.modal-content { border:1px solid var(--line); border-radius:16px; box-shadow:0 18px 50px rgba(40,28,8,.15); }
+.modal-header,.modal-footer { border-color:var(--line); background:#fffdf9; }
+.alert { border-radius:12px; }
+
+@media (max-width:767.98px) { 
+    .topbar { position:static; } 
+    .sidebar { border-right:0; border-bottom:1px solid var(--line); padding:14px; } 
+    .sidebar .nav-admin { display:grid; grid-template-columns:1fr 1fr; gap:8px; } 
+    .nav-admin .nav-link { margin:0; padding:11px 10px; font-size:.85rem; } 
+    .content-wrap { padding:22px 12px; } 
+    .stat { padding:16px; } 
+    .stat-value { font-size:1.6rem; } 
+}
+
